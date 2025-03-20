@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp-backend
+  template:
+    metadata:
+      labels:
+        app: webapp-backend
+    spec:
+      containers:
+      - name: webapp-backend
+        image: myrepo/webapp-backend:latest
+        ports:
+        - containerPort: 5231
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-backend-service
+spec:
+  selector:
+    app: webapp-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5231
