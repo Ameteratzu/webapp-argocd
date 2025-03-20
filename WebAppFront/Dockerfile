@@ -1,13 +1,13 @@
-# Usa una imagen base de Node.js para construir la app
+# Etapa 1: Construcción
 FROM node:18 AS build
 WORKDIR /app
-COPY . .
+COPY package.json package-lock.json ./
 RUN npm install
-RUN npm run build
+COPY . . 
+RUN npm run build  # Compila el frontend
 
-# Usa una imagen ligera para servir el frontend
+# Etapa 2: Servir con Nginx
 FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html  
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
-

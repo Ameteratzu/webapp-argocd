@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-backend
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -14,14 +15,18 @@ spec:
     spec:
       containers:
       - name: webapp-backend
-        image: myrepo/webapp-backend:latest
+        image: eduardsolibros1/webapp-backend:latest
         ports:
         - containerPort: 5231
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: webapp-backend-service
+  namespace: default
 spec:
   selector:
     app: webapp-backend

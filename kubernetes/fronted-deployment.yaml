@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-frontend
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
       - name: webapp-frontend
-        image: myrepo/webapp-frontend:latest
+        image: eduardsolibros1/webapp-frontend:latest
         ports:
         - containerPort: 80
 ---
@@ -22,6 +23,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: webapp-frontend-service
+  namespace: default
 spec:
   selector:
     app: webapp-frontend
@@ -29,3 +31,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+
