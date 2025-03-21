@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: webapp-pipeline
+spec:
+  workspaces:
+    - name: source
+  tasks:
+    - name: build-image
+      taskRef:
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: IMAGE
+          value: "docker.io/your-username/webapp:latest"
+    - name: deploy-to-k8s
+      taskRef:
+        name: kubectl
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: KUBECONFIG
+          value: "/workspace/source/kubeconfig"

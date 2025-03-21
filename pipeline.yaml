@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: deploy-webapp-pipeline
+spec:
+  pipelineRef:
+    name: webapp-pipeline
+  serviceAccountName: pipeline-runner
+  workspaces:
+    - name: source
+      emptyDir: {}

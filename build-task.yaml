@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: buildah
+spec:
+  steps:
+    - name: build
+      image: quay.io/buildah/stable:latest
+      command:
+        - buildah
+        - bud
+        - -f
+        - /workspace/source/Dockerfile
+        - -t
+        - $(params.IMAGE)
+        - /workspace/source
+  params:
+    - name: IMAGE
+      description: Docker image to be built

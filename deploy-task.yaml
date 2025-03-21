@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kubectl
+spec:
+  steps:
+    - name: apply
+      image: bitnami/kubectl:latest
+      command:
+        - kubectl
+        - apply
+        - -f
+        - /workspace/source/kubernetes/deployment.yaml
+  params:
+    - name: KUBECONFIG
+      description: Path to kubeconfig
+      default: /workspace/source/.kube/config
